@@ -1,0 +1,32 @@
+<form (ngSubmit)="onSubmit()">
+  <h1>Start your journey</h1>
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" [(ngModel)]="heroData.name" />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" [(ngModel)]="heroData.email" />
+    <!-- <span *ngIf="emailCtrl.invalid && !emailCtrl.pristine"
+      >Email is required!</span -->
+    <!-- > -->
+  </div>
+
+  <div class="form-group">
+    <label for="friend">Friend</label>
+    <select id="friend" name="friend" [(ngModel)]="heroData.friend">
+      <option *ngFor="let friend of friends" [value]="friend">
+        {{ friend }}
+      </option>
+    </select>
+    <!-- <span *ngIf="friendCtrl.invalid">You shouldn't go alone!</span> -->
+  </div>
+  <button>Submit</button>
+</form>
+
+<div *ngIf="submitted">
+  <h3>OUTPUT:</h3>
+  <div>{{ heroData | json }}</div>
+</div>

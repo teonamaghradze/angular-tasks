@@ -1,0 +1,63 @@
+form {
+  font-family: monospace;
+  font-size: 16px;
+  max-width: 500px;
+  margin: 4rem auto;
+  padding: 40px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+div {
+  margin-bottom: 30px;
+}
+
+label {
+  font-weight: bold;
+}
+label::before {
+  content: " *";
+  color: red;
+}
+
+.agreement::before {
+  content: "";
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+span {
+  color: #007bff;
+}
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+}
+
+.check,
+button {
+  margin-left: 225px;
+}
