@@ -14,6 +14,11 @@ import {
 })
 export class FormsComponent {
   registrationForm: FormGroup;
+  //empty array to push registered users
+  userData: any[] = [];
+
+  editingUser: any = null;
+  userToRemove: any = null;
 
   constructor(private fb: FormBuilder) {
     this.registrationForm = this.fb.group(
@@ -30,7 +35,7 @@ export class FormsComponent {
         ],
         phoneNumber: [
           '',
-          [Validators.required, Validators.pattern(/^\+995\d{10}$/)],
+          [Validators.required, Validators.pattern(/^\+995\d{9}$/)],
         ],
         website: [
           '',
@@ -60,7 +65,68 @@ export class FormsComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      console.log('Registration successful');
+      const formData = this.registrationForm.value;
+      console.log('Form Data:', formData);
+      this.userData.push(formData);
+      this.registrationForm.reset();
+      console.log(this.userData);
     }
+  }
+
+  //edit User
+  editUser(user: any) {
+    //copy of user
+    this.editingUser = { ...user };
+    this.registrationForm.patchValue(this.editingUser);
+  }
+
+  // Function to save the edited user
+  saveUser() {
+    if (this.registrationForm.valid) {
+      const editedUserData = this.registrationForm.value;
+      const index = this.userData.findIndex(
+        (user) => user.email === this.editingUser.email
+      );
+      if (index !== -1) {
+        this.userData[index] = editedUserData;
+        this.editingUser = null;
+        this.registrationForm.reset();
+      }
+    }
+  }
+
+  //cancel edit
+  cancelEdit() {
+    this.editingUser = null;
+    this.registrationForm.reset();
+  }
+
+  //removeuser
+  removeUser(user: any) {
+    this.userToRemove = user;
+  }
+
+  // Function to confirm and remove the user
+  confirmRemoveUser() {
+    if (this.userToRemove) {
+      const email = this.userToRemove.email;
+      const confirmMessage = `This action will remove a user with this email: ${email}\nAre you sure?`;
+
+      if (confirm(confirmMessage)) {
+        const index = this.userData.findIndex(
+          (user) => user.email === this.userToRemove.email
+        );
+        if (index !== -1) {
+          // Remove the user from the list
+          this.userData.splice(index, 1);
+        }
+        this.userToRemove = null; // Clear the user to be removed
+      }
+    }
+  }
+
+  // Function to cancel the removal action
+  cancelRemoveUser() {
+    this.userToRemove = null;
   }
 }

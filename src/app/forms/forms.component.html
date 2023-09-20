@@ -92,13 +92,47 @@
       </label>
     </div>
 
-    <button type="submit" [disabled]="registrationForm.invalid">
+    <button
+      class="submit-btn"
+      type="submit"
+      [disabled]="registrationForm.invalid"
+    >
       Register
     </button>
   </form>
 
-  <div>
-    <h3>Result:</h3>
-    <div>{{ registrationForm.value | json }}</div>
+  <div *ngIf="userData.length > 0">
+    <h2 class="header">List of Registered Users</h2>
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Nickname</th>
+          <th>Phone Number</th>
+          <th>Website</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userData">
+          <td>{{ user.email }}</td>
+          <td>{{ user.password }}</td>
+          <td>{{ user.nickname }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.website }}</td>
+          <button (click)="editUser(user)" *ngIf="!editingUser">Edit</button>
+          <button (click)="saveUser()" *ngIf="editingUser">Save</button>
+          <button (click)="cancelEdit()" *ngIf="editingUser">Cancel</button>
+
+          <button (click)="removeUser(user)" *ngIf="!editingUser">
+            Remove
+          </button>
+          <button (click)="confirmRemoveUser()" *ngIf="userToRemove">
+            Yes
+          </button>
+          <button (click)="cancelRemoveUser()" *ngIf="userToRemove">No</button>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
