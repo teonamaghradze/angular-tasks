@@ -88,7 +88,7 @@
     <div class="check">
       <label>
         <input type="checkbox" formControlName="agreement" />
-        I have read the agreement
+        I have read the <span>agreement</span>
       </label>
     </div>
 
@@ -96,43 +96,20 @@
       class="submit-btn"
       type="submit"
       [disabled]="registrationForm.invalid"
+      *ngIf="!selectedUser"
     >
       Register
     </button>
+    <ng-container *ngIf="selectedUser">
+      <button (click)="saveUser()">Save</button>
+      <button (click)="cancelEdit()">Cancel</button>
+    </ng-container>
   </form>
 
   <div *ngIf="userData.length > 0">
-    <h2 class="header">List of Registered Users</h2>
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Password</th>
-          <th>Nickname</th>
-          <th>Phone Number</th>
-          <th>Website</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of userData">
-          <td>{{ user.email }}</td>
-          <td>{{ user.password }}</td>
-          <td>{{ user.nickname }}</td>
-          <td>{{ user.phoneNumber }}</td>
-          <td>{{ user.website }}</td>
-          <button (click)="editUser(user)" *ngIf="!editingUser">Edit</button>
-          <button (click)="saveUser()" *ngIf="editingUser">Save</button>
-          <button (click)="cancelEdit()" *ngIf="editingUser">Cancel</button>
-
-          <button (click)="removeUser(user)" *ngIf="!editingUser">
-            Remove
-          </button>
-          <button (click)="confirmRemoveUser()" *ngIf="userToRemove">
-            Yes
-          </button>
-          <button (click)="cancelRemoveUser()" *ngIf="userToRemove">No</button>
-        </tr>
-      </tbody>
-    </table>
+    <app-users-list
+      [userData]="userData"
+      (selectedUser)="editUser($event)"
+    ></app-users-list>
   </div>
 </div>

@@ -1,0 +1,27 @@
+<h2 class="header">List of Registered Users</h2>
+<table class="user-table">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Nickname</th>
+      <th>Phone Number</th>
+      <th>Website</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of userData">
+      <td>{{ user.email }}</td>
+      <td>{{ user.password }}</td>
+      <td>{{ user.nickname }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.website }}</td>
+      <button (click)="editUser(user)">Edit</button>
+      <button (click)="removeUser(user)">Remove</button>
+      <ng-container *ngIf="userToRemove?.email === user.email">
+        <button (click)="confirmRemoveUser()">Yes</button>
+        <button (click)="cancelRemoveUser()">No</button>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>
