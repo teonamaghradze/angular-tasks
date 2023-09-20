@@ -1,32 +1,104 @@
-<form (ngSubmit)="onSubmit()">
-  <h1>Start your journey</h1>
+<div class="container">
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <div class="flex">
+      <label for="email"> Email:</label>
+      <input type="text" id="email" formControlName="email" />
+      <div
+        *ngIf="
+          registrationForm.get('email')?.hasError('email') &&
+          registrationForm.get('email')?.touched
+        "
+      >
+        Invalid email format.
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" [(ngModel)]="heroData.name" />
+    <div class="flex">
+      <label for="password"> Password:</label>
+      <input type="password" id="password" formControlName="password" />
+      <div
+        *ngIf="
+          registrationForm.get('password')?.hasError('pattern') &&
+          registrationForm.get('password')?.touched
+        "
+      >
+        Password must contain only English characters and numbers and be at
+        least 8 characters long.
+      </div>
+    </div>
+
+    <div class="flex">
+      <label for="confirmPassword"> Confirm Password:</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        formControlName="confirmPassword"
+      />
+      <div
+        *ngIf="
+          registrationForm
+            .get('confirmPassword')
+            ?.hasError('passwordMismatch') &&
+          registrationForm.get('confirmPassword')?.touched
+        "
+      >
+        Passwords do not match.
+      </div>
+    </div>
+
+    <div class="flex">
+      <label for="nickname"> Nickname:</label>
+      <input type="text" id="nickname" formControlName="nickname" />
+      <div
+        *ngIf="
+          registrationForm.get('nickname')?.hasError('pattern') &&
+          registrationForm.get('nickname')?.touched
+        "
+      >
+        Nickname must contain only English characters, numbers, and hyphens.
+      </div>
+    </div>
+
+    <div class="flex">
+      <label for="phoneNumber"> Phone Number:</label>
+      <input type="text" id="phoneNumber" formControlName="phoneNumber" />
+      <div
+        *ngIf="
+          registrationForm.get('phoneNumber')?.hasError('pattern') &&
+          registrationForm.get('phoneNumber')?.touched
+        "
+      >
+        Phone number must start with '+995' and contain 13 digits.
+      </div>
+    </div>
+
+    <div class="flex">
+      <label for="website"> Website:</label>
+      <input type="text" id="website" formControlName="website" />
+      <div
+        *ngIf="
+          registrationForm.get('website')?.hasError('pattern') &&
+          registrationForm.get('website')?.touched
+        "
+      >
+        Invalid website URL format.
+      </div>
+    </div>
+
+    <div class="check">
+      <label>
+        <input type="checkbox" formControlName="agreement" />
+        I have read the agreement
+      </label>
+    </div>
+
+    <button type="submit" [disabled]="registrationForm.invalid">
+      Register
+    </button>
+  </form>
+
+  <div>
+    <h3>Result:</h3>
+    <div>{{ registrationForm.value | json }}</div>
   </div>
-
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" [(ngModel)]="heroData.email" />
-    <!-- <span *ngIf="emailCtrl.invalid && !emailCtrl.pristine"
-      >Email is required!</span -->
-    <!-- > -->
-  </div>
-
-  <div class="form-group">
-    <label for="friend">Friend</label>
-    <select id="friend" name="friend" [(ngModel)]="heroData.friend">
-      <option *ngFor="let friend of friends" [value]="friend">
-        {{ friend }}
-      </option>
-    </select>
-    <!-- <span *ngIf="friendCtrl.invalid">You shouldn't go alone!</span> -->
-  </div>
-  <button>Submit</button>
-</form>
-
-<div *ngIf="submitted">
-  <h3>OUTPUT:</h3>
-  <div>{{ heroData | json }}</div>
 </div>
