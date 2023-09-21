@@ -46,8 +46,9 @@ export class FormsComponent {
           '',
           [
             Validators.required,
+
             Validators.pattern(
-              /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-zA-Z0-9]+(\.[a-zA-Z]{2,5}){1,2}$/
+              /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})(\/[a-zA-Z0-9]{2,})?/
             ),
           ],
         ],
