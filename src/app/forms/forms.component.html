@@ -33,17 +33,9 @@
         type="password"
         id="confirmPassword"
         formControlName="confirmPassword"
+        (change)="checkPasswords()"
       />
-      <div
-        *ngIf="
-          registrationForm
-            .get('confirmPassword')
-            ?.hasError('passwordMismatch') &&
-          registrationForm.get('confirmPassword')?.touched
-        "
-      >
-        Passwords do not match.
-      </div>
+      <div *ngIf="!passwordMatched">Passwords do not match.</div>
     </div>
 
     <div class="flex">

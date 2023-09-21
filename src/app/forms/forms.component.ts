@@ -19,6 +19,8 @@ export class FormsComponent {
   //empty array to push registered users
   userData: Users[] = [];
 
+  passwordMatched: boolean = true;
+
   selectedUser: Users | null = null;
   // userToRemove: any = null;
 
@@ -31,7 +33,7 @@ export class FormsComponent {
           [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{8,}$/)],
         ],
 
-        confirmPassword: ['', Validators.required],
+        confirmPassword: ['', [Validators.required, this.isPasswordMatched]],
         nickname: [
           '',
           [Validators.required, Validators.pattern(/^[a-zA-Z0-9-]+$/)],
@@ -67,6 +69,19 @@ export class FormsComponent {
   }
 
   onSubmit() {
+    console.log(this.registrationForm.errors, 'sdasdsa');
+    console.log(this.registrationForm.get('confirmPassword'));
+
+    if (
+      this.registrationForm.errors &&
+      this.registrationForm.errors['passwordMismatch']
+    ) {
+      this.passwordMatched = false;
+      return;
+    }
+
+    this.passwordMatched = true;
+
     if (this.registrationForm.valid) {
       const formData = this.registrationForm.value;
       console.log('Form Data:', formData);
@@ -110,5 +125,12 @@ export class FormsComponent {
 
     this.selectedUser = null;
     this.registrationForm.reset();
+  }
+
+  checkPasswords() {
+    this.passwordMatched = !(
+      this.registrationForm.get('password')?.value !==
+      this.registrationForm.get('confirmPassword')?.value
+    );
   }
 }
