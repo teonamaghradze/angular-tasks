@@ -7,6 +7,8 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
+import { Users } from '../users.interface';
+
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
@@ -15,9 +17,9 @@ import {
 export class FormsComponent {
   registrationForm: FormGroup;
   //empty array to push registered users
-  userData: any[] = [];
+  userData: Users[] = [];
 
-  selectedUser: any = null;
+  selectedUser: Users | null = null;
   // userToRemove: any = null;
 
   constructor(private fb: FormBuilder) {
@@ -28,6 +30,7 @@ export class FormsComponent {
           '',
           [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{8,}$/)],
         ],
+
         confirmPassword: ['', Validators.required],
         nickname: [
           '',
@@ -74,12 +77,14 @@ export class FormsComponent {
   }
 
   //edit User
-  editUser(user: any) {
+  editUser(user: Users) {
     console.log(user);
 
     //copy of user
     this.selectedUser = { ...user };
+
     this.registrationForm.patchValue(this.selectedUser);
+    console.log('dasdsad', this.selectedUser);
   }
 
   // // Function to save the edited user
@@ -89,7 +94,7 @@ export class FormsComponent {
     if (this.registrationForm.valid) {
       const editedUserData = this.registrationForm.value;
       const index = this.userData.findIndex(
-        (user) => user.email === this.selectedUser.email
+        (user) => user.email === this.selectedUser?.email
       );
       if (index !== -1) {
         this.userData[index] = editedUserData;
@@ -106,33 +111,4 @@ export class FormsComponent {
     this.selectedUser = null;
     this.registrationForm.reset();
   }
-
-  // //removeuser
-  // removeUser(user: any) {
-  //   this.userToRemove = user;
-  // }
-
-  // // Function to confirm and remove the user
-  // confirmRemoveUser() {
-  //   if (this.userToRemove) {
-  //     const email = this.userToRemove.email;
-  //     const confirmMessage = `This action will remove a user with this email: ${email}\nAre you sure?`;
-
-  //     if (confirm(confirmMessage)) {
-  //       const index = this.userData.findIndex(
-  //         (user) => user.email === this.userToRemove.email
-  //       );
-  //       if (index !== -1) {
-  //         // Remove the user from the list
-  //         this.userData.splice(index, 1);
-  //       }
-  //       this.userToRemove = null;
-  //     }
-  //   }
-  // }
-
-  // // Function to cancel the removal action
-  // cancelRemoveUser() {
-  //   this.userToRemove = null;
-  // }
 }

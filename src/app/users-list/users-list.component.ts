@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Users } from '../users.interface';
 
 @Component({
   selector: 'app-users-list',
@@ -6,30 +7,22 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./users-list.component.scss'],
 })
 export class UsersListComponent {
-  @Output() selectedUser: any = new EventEmitter<{
-    agreement: boolean;
-    password: string;
-    confirmPassword: string;
-    email: string;
-    nickname: string;
-    phoneNumber: string;
-    website: string;
-  }>();
+  @Output() selectedUser = new EventEmitter<Users>();
 
   editingUser: boolean = false;
 
-  userToRemove: any = null;
+  userToRemove: Users | null = null;
 
-  @Input() userData: any;
+  @Input() userData: Users[] = [];
 
   //edit User
-  editUser(user: any) {
+  editUser(user: Users) {
     this.editingUser = true;
     this.selectedUser.emit(user);
   }
 
   //removeuser
-  removeUser(user: any) {
+  removeUser(user: Users) {
     this.userToRemove = user;
   }
 
@@ -41,7 +34,7 @@ export class UsersListComponent {
 
       if (confirm(confirmMessage)) {
         const index = this.userData.findIndex(
-          (user: any) => user.email === this.userToRemove.email
+          (user: Users) => user.email === this.userToRemove?.email
         );
         console.log('index', index);
         console.log(this.userToRemove);
